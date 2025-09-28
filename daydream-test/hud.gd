@@ -12,7 +12,7 @@ func game_over():
 	await $MessageTimer.timeout
 	
 	disable_player_input()
-	$Title.text = "Testing Testing 123"
+	$Title.text = "Together or Never"
 	$Title.show()
 	$Polygon2D.show()
 	$StartButton.show()
