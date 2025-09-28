@@ -15,6 +15,11 @@ run/main_scene="uid://1lx1e8jf7vok"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Events="*res://events.gd"
+GameController="*res://game_controller.gd"
+
 [display]
 
 window/stretch/scale_mode="integer"
