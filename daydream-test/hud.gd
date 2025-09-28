@@ -11,6 +11,7 @@ func game_over():
 	show_message("GAME OVER")
 	await $MessageTimer.timeout
 	
+	disable_player_input()
 	$Title.text = "Testing Testing 123"
 	$Title.show()
 	$Polygon2D.show()
@@ -19,7 +20,10 @@ func game_over():
 func _on_start_button_pressed():
 	$StartButton.hide()
 	$Polygon2D.hide()
+	show_message("Escape!")
+	enable_player_input()
 	start_game.emit()
+	Audio.play_sound("res://frames/floppy_countdown.mp3")
 
 func _on_message_timer_timeout():
 	$Title.hide()
@@ -31,3 +35,15 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+func disable_player_input():
+	# Disable input processing for all players
+	var player = get_node("../Player")  # Adjust path to your player node
+	if player:
+		player.set_input_enabled(false)
+
+func enable_player_input():
+	# Enable input processing for all players
+	var player = get_node("../Player")  # Adjust path to your player node
+	if player:
+		player.set_input_enabled(true)

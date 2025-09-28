@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3mh0fx200540"]
+
+[ext_resource type="Script" uid="uid://c5ynd4tfakiep" path="res://bulet.gd" id="1_4s4u5"]
+[ext_resource type="Texture2D" uid="uid://ckqbxhti60hur" path="res://bulet.png" id="1_ayd6b"]
+[ext_resource type="AudioStream" uid="uid://cahx7hyxwm5lj" path="res://bulet_fire.wav" id="3_7281b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ayd6b"]
+radius = 3.0
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_4s4u5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ayd6b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ayd6b")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_7281b")

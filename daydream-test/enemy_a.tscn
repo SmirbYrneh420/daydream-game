@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxvtd682hccmn"]
+
+[ext_resource type="Script" uid="uid://k2u7v2mgegw7" path="res://enemyA.gd" id="1_0st7t"]
+[ext_resource type="Texture2D" uid="uid://8kf3ocnk230o" path="res://enemyA.png" id="2_duvxt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_50k7g"]
+size = Vector2(16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n4fg5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_duvxt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="EnemyA" type="CharacterBody2D"]
+script = ExtResource("1_0st7t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_50k7g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -0.9999962)
+scale = Vector2(1.0098999, 1.0104868)
+sprite_frames = SubResource("SpriteFrames_n4fg5")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+rect = Rect2(-8, -9, 16, 16)
