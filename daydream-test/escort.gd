@@ -25,38 +25,9 @@ func _ready() -> void:
 			pass
 		vn.screen_exited.connect(Callable(self, "_on_visible_on_screen_notifier_2d_screen_exited"))
 
-func take_damage(amount: int = 1):
-	if is_invincible:
-		return  # Can't take damage while invincible
-	
-	health -= amount
-	health = max(0, health)
-	
-	print("Escort took damage.")
-	
-	update_health_display()
-	start_invincibility()
-	
-	if health <= 0:
-		game_over()
-	else:
-		# Flash effect when taking damage
-		flash_damage()
-
-func start_invincibility():
-	is_invincible = true
-	await get_tree().create_timer(invincibility_duration).timeout
-	is_invincible = false
-
-func flash_damage():
-	# Flash red when taking damage
-	$AnimatedSprite2D.modulate = Color.RED
-	await get_tree().create_timer(flash_duration).timeout
-	$AnimatedSprite2D.modulate = Color.WHITE
-
-func update_health_display():
+#func update_health_display():
 	# Update UI health display (assuming you have heart sprites or health bar)
-	$HealthUIEscort.update_health(health, 4)
+	#$HealthUIEscort.update_health(health, 4)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -88,14 +59,6 @@ func handle_player_input():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		$AnimatedSprite2D.stop()
 
-func game_over():
-	print("Escort died!")
-	input_enabled = false
-	# Add death animation or effects here
-	$AnimatedSprite2D.stop()
-	$AnimatedSprite2D.modulate = Color.GRAY
-	$HUD.game_over()
-
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	# When the escort leaves the camera view, trigger game over and free.
 	var root_scene = get_tree().get_current_scene()
@@ -106,3 +69,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 		if hud and hud.has_method("game_over"):
 			hud.game_over()
 	queue_free()
+	
+func game_over():
+	print("Player died!")
+	input_enabled = false
+	# Add death animation or effects here
+	$AnimatedSprite2D.stop()
+	$AnimatedSprite2D.modulate = Color.GRAY
+	$HUD.game_over()

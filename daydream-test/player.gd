@@ -10,43 +10,6 @@ const BULLET_SCENE = preload("res://Bullet.tscn")
 var can_shoot = true
 var input_enabled = true
 
-var is_invincible = false
-var invincibility_duration = 1.0
-var flash_duration = 0.1
-
-func take_damage(amount: int = 1):
-	if is_invincible:
-		return  # Can't take damage while invincible
-	
-	health -= amount
-	health = max(0, health)
-	
-	print("Player took damage.")
-	
-	update_health_display()
-	start_invincibility()
-	
-	if health <= 0:
-		game_over()
-	else:
-		# Flash effect when taking damage
-		flash_damage()
-
-func start_invincibility():
-	is_invincible = true
-	await get_tree().create_timer(invincibility_duration).timeout
-	is_invincible = false
-
-func flash_damage():
-	# Flash red when taking damage
-	$AnimatedSprite2D.modulate = Color.RED
-	await get_tree().create_timer(flash_duration).timeout
-	$AnimatedSprite2D.modulate = Color.WHITE
-
-func update_health_display():
-	# Update UI health display (assuming you have heart sprites or health bar)
-	$HealthUI.update_health(health, 4)
-
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
