@@ -9,6 +9,22 @@ var invincibility_duration = 1.0
 var flash_duration = 0.1
 var input_enabled = true
 
+func _ready() -> void:
+	# If there's a VisibleOnScreenNotifier2D (or similarly named node), connect its exit signal
+	var notifier = find_child("VisibleOnScreenNotifier2D", true, false)
+	if notifier:
+		if notifier.has_signal("screen_exited"):
+			notifier.screen_exited.connect(Callable(self, "_on_visible_on_screen_notifier_2d_screen_exited"))
+	else:
+		# create a notifier so we can detect when escort leaves the screen
+		var vn = VisibleOnScreenNotifier2D.new()
+		add_child(vn)
+		# try to give it a small rect to match the escort collision area (optional)
+		if has_node("CollisionShape2D"):
+			# no direct API to size notifier here; leave default
+			pass
+		vn.screen_exited.connect(Callable(self, "_on_visible_on_screen_notifier_2d_screen_exited"))
+
 func take_damage(amount: int = 1):
 	if is_invincible:
 		return  # Can't take damage while invincible
@@ -79,3 +95,14 @@ func game_over():
 	$AnimatedSprite2D.stop()
 	$AnimatedSprite2D.modulate = Color.GRAY
 	$HUD.game_over()
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	# When the escort leaves the camera view, trigger game over and free.
+	var root_scene = get_tree().get_current_scene()
+	if root_scene and root_scene.has_method("game_over"):
+		root_scene.game_over()
+	else:
+		var hud = root_scene.find_node("HUD", true, false) if root_scene else null
+		if hud and hud.has_method("game_over"):
+			hud.game_over()
+	queue_free()
